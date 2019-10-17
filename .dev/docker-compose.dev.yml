@@ -1,0 +1,36 @@
+version:  "3.2"
+services:
+    teratur:
+        image: teratur
+        build:
+            context: .
+            dockerfile: ../.docker/development.dockerfile
+        volumes:
+            - "../.:/go/src/github.com/essajiwa/teratur"
+        environment:
+            - ENV=development
+        ports:
+            - "4040:4040"
+        depends_on:
+            - redis
+            - postgres
+        command: [".dev/wait-for-it.sh","postgres:5432","--","refresh","run","-c",".dev/refresh.yml"]
+        container_name: teratur
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+            - 6378:6379
+    postgres:
+        image: postgres:alpine
+        environment:
+            POSTGRES_DB: teratur
+            POSTGRES_PASSWORD: password
+            POSTGRES_USER: biarteratur
+            PGDATA: /var/lib/postgresql/data/teratur
+        container_name: postgres
+        volumes:
+            - ../.docker/postgres-data:/var/lib/postgresql/data/teratur
+            - ../.docker/database_scripts:/docker-entrypoint-initdb.d
+        ports:
+            - 5432:5432

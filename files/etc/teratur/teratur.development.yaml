@@ -1,0 +1,11 @@
+server:
+    port: ":4040"
+database:
+    master: "postgres://biarteratur:password@postgres/teratur?sslmode=disable"
+    follower: "postgres://biarteratur:password@postgres/teratur?sslmode=disable"
+redis:
+    maxidle: 100
+    maxactive: 100
+    timeout: 100
+    wait: true
+    address: "redis:6379"
