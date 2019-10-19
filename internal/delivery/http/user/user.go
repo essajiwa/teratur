@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -25,8 +26,9 @@ type (
 	}
 
 	userResp struct {
-		Name string `json:"name"`
-		ID   int64  `json:"id"`
+		Name   string `json:"name"`
+		ID     int64  `json:"id"`
+		Status int    `json:"status"`
 	}
 )
 
@@ -55,19 +57,24 @@ func (h *Handler) GetUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	u, err := h.usrSvc.GetUserByID(context.Background(), userID)
 	if err != nil {
+		if strings.Contains(err.Error(), "service") {
+
+		}
 		resp.Error = response.Error{
 			Code:   101,
 			Msg:    "Data Not Found",
 			Status: true,
 		}
+
 		log.Printf("[ERROR] %s %s\n", r.Method, r.URL)
 		log.Println(err)
 		return
 	}
 
 	resp.Data = userResp{
-		Name: u.Name,
-		ID:   u.ID,
+		Name:   u.Name,
+		ID:     u.ID,
+		Status: u.Status,
 	}
 	log.Printf("[INFO] %s %s\n", r.Method, r.URL)
 }

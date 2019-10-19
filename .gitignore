@@ -22,3 +22,6 @@ vendor/*
 
 # exception to the rule
 !vendor/.gitkeep
+
+# docker postgres volume
+.docker/postgres-data

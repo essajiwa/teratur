@@ -6,6 +6,7 @@ import (
 	"github.com/essajiwa/teratur/pkg/grace"
 )
 
+// UserHandler is
 type UserHandler interface {
 	GetUserHandler(w http.ResponseWriter, r *http.Request)
 }
