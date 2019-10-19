@@ -7,6 +7,7 @@ import (
 	_ "github.com/lib/pq" // Postgres driver
 
 	"github.com/essajiwa/teratur/internal/config"
+	"github.com/essajiwa/teratur/pkg/errors"
 	"github.com/essajiwa/teratur/pkg/safesql"
 
 	userData "github.com/essajiwa/teratur/internal/data/user"
@@ -36,7 +37,7 @@ func HTTP() error {
 	// Open DB connection
 	slaveDB, err := safesql.OpenSlaveDB("postgres", cfg.Database.Follower)
 	if err != nil {
-		log.Fatalf("init follower DB failed: %v", err)
+		log.Fatalf("init follower DB failed %v", errors.Set(err))
 	}
 
 	// User domain init
@@ -51,7 +52,7 @@ func HTTP() error {
 
 	if err := s.Serve(cfg.Server.Port); err != http.ErrServerClosed {
 		// Error starting or closing listener:
-		return err
+		return errors.Set(err)
 	}
 
 	return nil

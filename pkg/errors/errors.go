@@ -3,6 +3,8 @@ package errors
 
 import (
 	"fmt"
+	"go/build"
+	"os"
 	"runtime"
 	"strings"
 )
@@ -14,14 +16,14 @@ type errors struct {
 
 // New will return error with the caller file info from string type
 func New(m string) error {
-	return &errors{
+	return errors{
 		msg:      m,
 		fileInfo: getFileInfo(),
 	}
 }
 
 // Error will return error string
-func (e *errors) Error() string {
+func (e errors) Error() string {
 	return e.fileInfo + " " + e.msg
 }
 
@@ -36,7 +38,14 @@ func Set(e error) error {
 // to remove the application folder from file path
 func getFileInfo() string {
 	_, fn, line, _ := runtime.Caller(2)
-	f := strings.SplitAfterN(fn, "/", 7)
+
+	gopath := os.Getenv("GOPATH")
+	if gopath == "" {
+		gopath = build.Default.GOPATH
+	}
+
+	fn = strings.TrimLeft(fn, gopath+"/src/")
+	f := strings.SplitAfterN(fn, "/", 4)
 	fn = f[len(f)-1]
 	return fmt.Sprintf("[%s:%d]", fn, line)
 }
