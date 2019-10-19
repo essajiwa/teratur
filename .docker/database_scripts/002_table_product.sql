@@ -1,6 +1,6 @@
 BEGIN;
 
--- CREATE SEQUENCE "affiliate_order_invoice_id_seq" ------------
+-- CREATE SEQUENCE "product_id_seq" ------------
 CREATE SEQUENCE IF NOT EXISTS "public"."product_id_seq"
 INCREMENT 1
 MINVALUE 1
@@ -13,8 +13,8 @@ COMMIT;
 
 BEGIN;
 
--- CREATE SEQUENCE "affiliate_order_invoice_aff_inv" -----------
-CREATE SEQUENCE IF NOT EXISTS "public"."product_num"
+-- CREATE SEQUENCE "product_num_seq" -----------
+CREATE SEQUENCE IF NOT EXISTS "public"."product_num_seq"
 INCREMENT 1
 MINVALUE 1
 MAXVALUE 9223372036854775807
@@ -27,7 +27,7 @@ COMMIT;
 
 BEGIN;
 
--- CREATE TABLE "affiliate_order_invoice" ----------------------
+-- CREATE TABLE "product" ----------------------
 CREATE TABLE IF NOT EXISTS "public"."product" (
 	"id" Bigint DEFAULT nextval('product_id_seq'::regclass) NOT NULL,
     "name" Character Varying COLLATE "pg_catalog"."default",

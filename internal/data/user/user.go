@@ -5,8 +5,8 @@ import (
 	"log"
 
 	svc "github.com/essajiwa/teratur/internal/service/user"
+	"github.com/essajiwa/teratur/pkg/errors"
 	"github.com/essajiwa/teratur/pkg/safesql"
-	"github.com/pkg/errors"
 )
 
 type (
@@ -86,7 +86,8 @@ func (d Data) GetUserByID(ctx context.Context, userID int64) (svc.User, error) {
 	row := d.stmt[getUserByID].QueryRowxContext(ctx, userID)
 	err = row.StructScan(&user)
 	if err != nil {
-		return user, errors.Wrap(err, "[data][GetByUserID]")
+
+		return user, errors.Set(err)
 	}
 
 	return user, err

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/essajiwa/teratur/pkg/errors"
 	"github.com/essajiwa/teratur/pkg/safesql"
-	"github.com/pkg/errors"
 )
 
 type (
@@ -22,7 +22,7 @@ type (
 )
 
 const (
-	qGetNextProductNumber = "SELECT NEXTVAL('product_number') AS product_num"
+	qGetNextProductNumber = "SELECT NEXTVAL('product_num_seq') AS product_num"
 	qSaveProduct          = `
 	INSERT INTO 
 		product (
@@ -54,7 +54,7 @@ func (d Data) generateProductNumber(ctx context.Context) (string, error) {
 
 	err := d.db.QueryRowxContext(ctx, qGetNextProductNumber).Scan(&prodNum)
 	if err != nil {
-		return fmtProdNum, errors.Wrap(err, "[data][GetByUserID]")
+		return fmtProdNum, errors.Set(err)
 	}
 
 	fmtProdNum = fmt.Sprintf("P%0.8d", prodNum)
@@ -62,6 +62,7 @@ func (d Data) generateProductNumber(ctx context.Context) (string, error) {
 
 }
 
+// SaveProduct will save the product info with auto mumbering for product number
 func (d *Data) SaveProduct(ctx context.Context, name string) error {
 	return nil
 }

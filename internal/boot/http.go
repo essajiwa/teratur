@@ -17,6 +17,7 @@ import (
 
 // HTTP will load configuration, do Dependency Injection and then start the HTTP server
 func HTTP() error {
+
 	var (
 		s   httpsrv.Server  // HTTP server object
 		ud  userData.Data   // User domain data layer

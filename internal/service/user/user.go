@@ -4,7 +4,7 @@ package user
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"github.com/essajiwa/teratur/pkg/errors"
 )
 
 // DataLayer holds all method to access data,
@@ -35,8 +35,7 @@ func New(userData DataLayer) Service {
 // GetUserByID will return User data filtered by it's ID
 func (s Service) GetUserByID(ctx context.Context, userID int64) (User, error) {
 	if userID == 3 {
-		return User{}, errors.Wrap(errors.New("pengen aja ngasih error dari service"), "[service][GetUserByID]")
-
+		return User{}, errors.New("pengen aja ngasih error dari service")
 	}
 	return s.data.GetUserByID(ctx, userID)
 }

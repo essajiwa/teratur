@@ -45,6 +45,7 @@ func (h *Handler) GetUserHandler(w http.ResponseWriter, r *http.Request) {
 		resp   *response.Response
 		userID int64
 		err    error
+		errRes response.Error
 	)
 	resp = &response.Response{}
 	defer resp.RenderJSON(w, r)
@@ -57,17 +58,24 @@ func (h *Handler) GetUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	u, err := h.usrSvc.GetUserByID(context.Background(), userID)
 	if err != nil {
-		if strings.Contains(err.Error(), "service") {
 
-		}
-		resp.Error = response.Error{
+		errRes = response.Error{
 			Code:   101,
 			Msg:    "Data Not Found",
 			Status: true,
 		}
 
-		log.Printf("[ERROR] %s %s\n", r.Method, r.URL)
-		log.Println(err)
+		if strings.Contains(err.Error(), "service") {
+
+			errRes = response.Error{
+				Code:   201,
+				Msg:    "Failed to process request due to server error",
+				Status: true,
+			}
+		}
+
+		log.Printf("[ERROR] %s %s - %v\n", r.Method, r.URL, err)
+		resp.Error = errRes
 		return
 	}
 
