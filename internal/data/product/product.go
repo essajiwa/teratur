@@ -54,7 +54,7 @@ func (d Data) generateProductNumber(ctx context.Context) (string, error) {
 
 	err := d.db.QueryRowxContext(ctx, qGetNextProductNumber).Scan(&prodNum)
 	if err != nil {
-		return fmtProdNum, errors.Set(err)
+		return fmtProdNum, errors.Wrap(err)
 	}
 
 	fmtProdNum = fmt.Sprintf("P%0.8d", prodNum)

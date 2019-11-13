@@ -6,6 +6,7 @@ package user
 
 import (
 	context "context"
+	shop "github.com/essajiwa/teratur/internal/service/shop"
 	user "github.com/essajiwa/teratur/internal/service/user"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
@@ -45,4 +46,40 @@ func (m *MockIUserSvc) GetUserByID(ctx context.Context, userID int64) (user.User
 // GetUserByID indicates an expected call of GetUserByID
 func (mr *MockIUserSvcMockRecorder) GetUserByID(ctx, userID interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockIUserSvc)(nil).GetUserByID), ctx, userID)
+}
+
+// MockIShopSvc is a mock of IShopSvc interface
+type MockIShopSvc struct {
+	ctrl     *gomock.Controller
+	recorder *MockIShopSvcMockRecorder
+}
+
+// MockIShopSvcMockRecorder is the mock recorder for MockIShopSvc
+type MockIShopSvcMockRecorder struct {
+	mock *MockIShopSvc
+}
+
+// NewMockIShopSvc creates a new mock instance
+func NewMockIShopSvc(ctrl *gomock.Controller) *MockIShopSvc {
+	mock := &MockIShopSvc{ctrl: ctrl}
+	mock.recorder = &MockIShopSvcMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use
+func (m *MockIShopSvc) EXPECT() *MockIShopSvcMockRecorder {
+	return m.recorder
+}
+
+// GetShopByUserID mocks base method
+func (m *MockIShopSvc) GetShopByUserID(ctx context.Context, userID int64) (shop.Shop, error) {
+	ret := m.ctrl.Call(m, "GetShopByUserID", ctx, userID)
+	ret0, _ := ret[0].(shop.Shop)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetShopByUserID indicates an expected call of GetShopByUserID
+func (mr *MockIShopSvcMockRecorder) GetShopByUserID(ctx, userID interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetShopByUserID", reflect.TypeOf((*MockIShopSvc)(nil).GetShopByUserID), ctx, userID)
 }

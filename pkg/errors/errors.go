@@ -27,8 +27,8 @@ func (e errors) Error() string {
 	return e.fileInfo + " " + e.msg
 }
 
-// Set will return error with file info from error type
-func Set(e error) error {
+// Wrap will return error wrapped with the file info when the error happened
+func Wrap(e error) error {
 	return &errors{
 		msg:      e.Error(),
 		fileInfo: getFileInfo(),

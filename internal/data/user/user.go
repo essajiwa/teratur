@@ -87,7 +87,7 @@ func (d Data) GetUserByID(ctx context.Context, userID int64) (svc.User, error) {
 	err = row.StructScan(&user)
 	if err != nil {
 
-		return user, errors.Set(err)
+		return user, errors.Wrap(err)
 	}
 
 	return user, err

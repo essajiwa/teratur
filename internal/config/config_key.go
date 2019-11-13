@@ -6,6 +6,7 @@ type (
 		Server   ServerConfig   `yaml:"server"`
 		Database DatabaseConfig `yaml:"database"`
 		Redis    RedisConfig    `yaml:"redis"`
+		API      APIConfig      `yaml:"api"`
 	}
 
 	// ServerConfig server config
@@ -26,5 +27,10 @@ type (
 		TimeOut   int    `yaml:"timeout"`
 		Wait      bool   `yaml:"wait"`
 		Address   string `yaml:"address"`
+	}
+
+	// APIConfig will holds base URL of 3rd party API
+	APIConfig struct {
+		Shop string `yaml:"shop"`
 	}
 )

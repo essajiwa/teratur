@@ -9,3 +9,5 @@ redis:
     timeout: 100
     wait: true
     address: "redis:6379"
+api:
+    shop: "https://api.jsonbin.io/"
