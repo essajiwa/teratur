@@ -20,3 +20,10 @@ gen:
 	@echo "GENERATING MOCK FILES"
 	@go generate ./...
 	@echo "DONE!"
+
+check:
+	@echo "${NOW} == STATICCHECK..."
+	@staticcheck ./...
+	@echo "STATICCHECK DONE!"
+
+test-all: test check
